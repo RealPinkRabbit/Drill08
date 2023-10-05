@@ -1,6 +1,15 @@
 from pico2d import *
 
 # Game object class here
+class Grass:    # 클래스명은 명사로, 명사는 대문자로 시작
+    def __init__(self):
+        self.image = load_image('grass.png')
+
+    def draw(self):
+        self.image.draw(400, 30)
+
+    def update(self):
+        pass
 
 def handle_events():
     global running
@@ -14,15 +23,19 @@ def handle_events():
 
 def reset_world():
     global running
-    running = True
+    global grass
 
+    running = True
+    grass = Grass()
 
 def update_world():
+    grass.update()
     pass
 
 
 def render_world():
     clear_canvas()
+    grass.draw()
     update_canvas()
 
 
