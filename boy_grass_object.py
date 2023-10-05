@@ -1,8 +1,9 @@
 from pico2d import *
 import random
 
+
 # Game object class here
-class Grass:    # 클래스명은 명사로, 명사는 대문자로 시작
+class Grass:  # 클래스명은 명사로, 명사는 대문자로 시작
     def __init__(self):
         self.image = load_image('grass.png')
 
@@ -11,6 +12,7 @@ class Grass:    # 클래스명은 명사로, 명사는 대문자로 시작
 
     def update(self):
         pass
+
 
 class Boy:
     def __init__(self):
@@ -23,7 +25,24 @@ class Boy:
         self.x += 5
 
     def draw(self):
-        self.image.clip_draw(self.frame*100, 0, 100, 100, self.x, self.y)
+        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
+
+class Ball:
+    def __init__(self):
+        self.x, self.y = random.randint(0, 800), 599
+        self.fall_speed = random.randint(10, 30)
+        self.size = random.randint(0, 1)
+        self.s_image = load_image('ball21x21.png')
+        self.b_image = load_image('ball41x41.png')
+
+    def update(self):
+        self.y -= self.fall_speed
+        if (self.y) < 50:
+            self.y = 50
+
+    def draw(self):
+        self.s_image.draw(self.x, self.y) if (self.size == 1) else self.b_image.draw(self.x, self.y)
+
 
 def handle_events():
     global running
@@ -40,6 +59,7 @@ def reset_world():
     global grass
     global team
     global world
+    global balls
 
     running = True
     world = []
@@ -49,6 +69,10 @@ def reset_world():
 
     team = [Boy() for i in range(11)]
     world += team
+
+    balls = [Ball() for i in range(20)]
+    world += balls
+
 
 def update_world():
     for o in world:
